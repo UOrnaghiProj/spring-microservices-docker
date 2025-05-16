@@ -3,6 +3,8 @@ package com.example.userservice.service;
 
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+    Logger logger = LoggerFactory.getLogger(UserService.class);
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -22,7 +26,7 @@ public class UserService {
     }
     @Cacheable(value = "users",  key = "#id")
     public Optional<User> getUserById(Long id) {
-        System.out.println(">>> QUERY al database per utente id=" + id);
+        logger.info("QUERY al database per utente id={}", id);
         return userRepository.findById(id);
     }
 
